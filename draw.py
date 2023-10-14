@@ -87,5 +87,3 @@ def get_shape():
             _temp+=1
         
         pygame.display.update()
-    
-get_shape()

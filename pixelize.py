@@ -15,27 +15,24 @@ def px_by_px(square:pygame.Rect, img:pygame.Surface):
     return [i/pixel_count for i in avg]
 
 def pixel(src:str,out:str , subdivisions=1, triangular=True):
-    print("Creating output screen")
     img = pygame.image.load(src)
     size = img.get_size()
-    out_img = pygame.display.set_mode(size)
-    pygame.display.iconify()
     if triangular:
         print("Getting shit")
         points = get_shape()
         print(points)
         for point in points:
             _square = get_rect(point)
-            pygame.draw.polygon(out_img, px_by_px(_square, img), point)
-            pygame.image.save(out_img, out)
+            pygame.draw.polygon(img, px_by_px(_square, img), point)
+            pygame.image.save(img, out)
         return
-    print("Creating grid...")
     grid = []
     side = size[0]/subdivisions
     side = int(side)
-    for y in range(subdivisions):
+    img = pygame.transform.scale(img, (size[0]-size[0]%subdivisions, size[1]-size[1]%side))
+    for y in range(int(size[1]/side)):
         for x in range(subdivisions):
             grid.append(pygame.Rect(side*x, side*y, side, side))
     for square in grid:
-        pygame.draw.rect(out_img, px_by_px(square, img), square)
-    pygame.image.save(out_img, out)
+        pygame.draw.rect(img, px_by_px(square, img), square)
+    pygame.image.save(img, out)
